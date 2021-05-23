@@ -14,49 +14,40 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">게시글 등록</h1>
+                <h1 class="page-header" style="text-align: center">Search URL</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-7">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
 
                     <div class="panel-heading">
-                        ${boardDto.bbsWriterId}
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-search fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">DevSec</div>
+                                <div>Crawling</div>
+                            </div>
+                        </div>
                     </div>
-                    <form id="frm" action="" method="post">
-                        <input type="hidden" id="method" name="_method">
-                        <input type="hidden" id="bbsId" name="bbsId" value="<c:out value='${boardDto.bbsId}'/>" >
+                    <form id="frm" action="/crawl" method="post">
                         <div class="panel-body">
-                            <div class="col-sm-6">
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon">분류</span>
-                                    <select name="groupCd" class="form-control" >
-                                        <option>게시판 선택</option>
-                                        <option>free</option>
-                                        <option>news</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="col-sm-12">
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon">제목</span>
-                                    <input type="text" class="form-control" name="bbsTitle" value="<c:out value='${boardDto.bbsTitle}'/>" placeholder="제목을 입력해 주세요.">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <%--<span class="input-group-addon">내용</span>--%>
-                                    <textarea id="summernote" class="form-control" name="bbsContent">${boardDto.bbsContent}</textarea>
+                                <div class="input-group">
+                                    <input type="url" class="form-control" name="scanUrl" value="" placeholder="Search or scan a URL">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-warning" type="button" onclick="fnSearch()" >
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </form>
-                    <div class="panel-footer">
-                        <button type="button" class="btn btn-default" onclick="fnSave()">저장</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -71,16 +62,8 @@
         summernote();
     });
 
-    function fnSave(){
-        const bbsId = parseInt($("#bbsId").val());
-        if(bbsId>0){    //수정
-            const groupCd = $("select[name=groupCd]").val();
-            $("#method").val("put");
-            $("#frm").attr("action", "/board/"+groupCd+"/"+bbsId).submit();
-        }else{  //등록
-            $("#frm").attr("action", "/board/write").submit();
-            $("#frm").submit();
-        }
+    function fnSearch(){
+        $("#frm").submit();
     }
 
 </script>
