@@ -59,6 +59,20 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        head
+                    </div>
+                    <div class="panel-body">
+                        <p>${html}</p>
+                            <%--<iframe src="${URL}" ></iframe>--%>
+                    </div>
+                    <div class="panel-footer">
+                        Panel Footer
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -69,8 +83,13 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        summernote();
+
+        $('input[name=userid]').attr('value',"dongyang123");
+        $('input[name=userpassword]').attr('value',"mirae123");
+        window.open('${URL}/target.html');
     });
+
+
 </script>
 </body>
 </html>

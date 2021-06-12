@@ -3,6 +3,7 @@ package com.devsec.owasp.controller;
 import com.devsec.owasp.service.crawl.CrawlService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.jasper.tagplugins.jstl.core.Url;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -44,12 +45,20 @@ public class CrawlController {
             String URL = params.get("scanUrl");
             Document document = Jsoup.connect(URL).get();
 
+            String htmlText = document.html();
             model.addAttribute("input",document.getElementsByTag("input"));
             model.addAttribute("html",document.html());
+            model.addAttribute("html2",document.html().toString());
+            model.addAttribute("html3",htmlText);
             model.addAttribute("body",document.body());
             model.addAttribute("head",document.head());
             model.addAttribute("title",document.title());
             model.addAttribute("text",document.text());
+            String userid = "dongyang123";
+            String userpassword = "mirae123";
+
+            model.addAttribute("URL",URL);
+            log.debug("doc: "+document.select("src").first());
         }catch (Exception e){
 
         }
