@@ -83,12 +83,20 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-
         $('input[name=userid]').attr('value',"dongyang123");
         $('input[name=userpassword]').attr('value',"mirae123");
         window.open('${URL}/target.html');
     });
 
+    function check (form){
+
+        if(form.userid.value=="dongyang123" && form.userpassword.value=="mirae123"){
+            window.open('${URL}/target.html');
+        }
+        else{
+            alert("Error: wrong ID or PW");
+        }
+    }
 
 </script>
 </body>
