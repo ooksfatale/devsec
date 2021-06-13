@@ -237,10 +237,16 @@
                     </div>
                 </li>--%>
                 <li>
-                    <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-files-o fa-fw"></i> 크롤링<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="/crawl">Crawling</a>
+                        </li>
+                    </ul>
+                    <a href="#"><i class="fa fa-files-o fa-fw"></i> 웹취약점 진단<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/sqlinjct">SQL Injection</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

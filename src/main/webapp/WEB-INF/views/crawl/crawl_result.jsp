@@ -49,10 +49,10 @@
             <div class="col-lg-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        head
+                        table
                     </div>
                     <div class="panel-body">
-                        <p>${head}</p>
+                        <p>${table}</p>
                     </div>
                     <div class="panel-footer">
                         Panel Footer
@@ -62,11 +62,10 @@
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        head
+                        html
                     </div>
                     <div class="panel-body">
-                        <p>${html}</p>
-                            <%--<iframe src="${URL}" ></iframe>--%>
+                        <p><c:out value="${html}" escapeXml="true" /></p>
                     </div>
                     <div class="panel-footer">
                         Panel Footer
@@ -83,22 +82,8 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('input[name=userid]').attr('value',"dongyang123");
-        $('input[name=userpassword]').attr('value',"mirae123");
-        if('${URL}' == 'http://54.180.102.242'){
-            window.open('${URL}/target.html');
-        }
+
     });
-
-    function check (form){
-
-        if(form.userid.value=="dongyang123" && form.userpassword.value=="mirae123"){
-            window.open('${URL}/target.html');
-        }
-        else{
-            alert("Error: wrong ID or PW");
-        }
-    }
 
 </script>
 </body>
