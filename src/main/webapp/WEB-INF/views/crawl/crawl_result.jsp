@@ -85,7 +85,9 @@
     $(document).ready(function(){
         $('input[name=userid]').attr('value',"dongyang123");
         $('input[name=userpassword]').attr('value',"mirae123");
-        window.open('${URL}/target.html');
+        if('${URL}' == 'http://54.180.102.242'){
+            window.open('${URL}/target.html');
+        }
     });
 
     function check (form){
