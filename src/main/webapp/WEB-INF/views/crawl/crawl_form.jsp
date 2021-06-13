@@ -38,7 +38,7 @@
                         <div class="panel-body">
                             <div class="col-sm-12">
                                 <div class="input-group">
-                                    <input type="url" class="form-control" name="scanUrl" value="" placeholder="Search or scan a URL">
+                                    <input type="url" class="form-control" id="scanUrl" name="scanUrl" value="" placeholder="Search or scan a URL">
                                     <span class="input-group-btn">
                                         <button class="btn btn-warning" type="button" onclick="fnSearch()" >
                                             <i class="fa fa-search"></i>
@@ -63,7 +63,11 @@
     });
 
     function fnSearch(){
-        $("#frm").submit();
+        if($("#scanUrl").val() == '') {
+            alert('URL을 입력해주세요.');
+        }else{
+            $("#frm").submit();
+        }
     }
 
 </script>
