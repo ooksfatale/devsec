@@ -59,8 +59,8 @@ public class CrawlController {
 
             /*크롤링한 정보로 로그인*/
             Connection.Response res =  Jsoup.connect(URL)
-                    .data("id",userId, "pw","")
-                    .method(Connection.Method.POST)
+                    .data("id",userId, "pw","2")
+                    .method(Connection.Method.POST).timeout(10000)
                     .execute();
             String sessionId  = res.cookie("PHPSESSID");    //php session 담기
             log.debug("sessionId : "+sessionId);
@@ -83,7 +83,7 @@ public class CrawlController {
 
             /*** 로그인후 크롤링 페이지 ***/
             Document doc = Jsoup.connect(params.get("moveUrl"))
-                    .cookie("PHPSESSID",sessionId)
+                    .cookie("PHPSESSID",sessionId).timeout(10000)
                     .get();
 
             model.addAttribute("result",doc.getElementById("member_idm"));
@@ -108,23 +108,8 @@ public class CrawlController {
         try{
 
             String URL = params.get("scanUrl");
-            Document document = Jsoup.connect(URL).get();
+            Document document = Jsoup.connect(URL).timeout(10000).get();
             log.debug("document : "+document.html());
-
-            // ' or id='test1234' #
-
-            /*Connection.Response res =  Jsoup.connect(URL)
-                    .data("id","test02", "pw","a")
-                    .method(Connection.Method.POST)
-                    .execute();
-            log.debug("parse : "+res.parse());
-            String sessionId  = res.cookie("PHPSESSID");
-
-            Document doc = Jsoup.connect("http://221.150.109.103:1223/member/info.php")
-                    .cookie("PHPSESSID",sessionId)
-                    .get();
-
-            log.debug("doc :" + doc);*/
 
             model.addAttribute("input",document.getElementsByTag("input"));
             model.addAttribute("html",document.html());
@@ -156,7 +141,7 @@ public class CrawlController {
     @PostMapping("/xss")
     @ResponseBody
     public String xssScan(@RequestParam Map<String, String> params, ModelMap model) throws Exception{
-        /*** sql injection 취약점을 통한 로그인 ***/
+        /*** xss 취약점을 통한 로그인 ***/
 
         String loginURL = "http://221.150.109.103:1223/member/login_ok.php";
         String URL = params.get("scanUrl");
@@ -183,7 +168,7 @@ public class CrawlController {
         String msg = "xss 취약점 발견";
 
         if(StringParse.contains("xss")){
-            msg = "이상 없음";
+            msg = "취약점 발견";
         }else{
             msg = "취약점 발견";
         }
