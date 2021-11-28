@@ -172,17 +172,23 @@ public class CrawlController {
 
 
         String insertUrl = "http://221.150.109.103:1223/board/insert.php";
-        Document doc = Jsoup.connect(insertUrl)
-                .data("subject","test", "content","<img src=# onclick=alert(1)>")
+        Document doc = Jsoup.connect(insertUrl).timeout(5000)
+                .data("subject","test3", "content","<script>alert(1);</script>")
                 .cookie("PHPSESSID",sessionId)
                 .post();
 
-        // doc값이 xss면 취약점 방어 완료
-        // doc값이 게시글 작성 완료 면 취약점 발견
+        String StringParse = doc.toString();
+        log.debug("StringParse : "+StringParse);
 
-        log.debug("doc :" + doc);
+        String msg = "xss 취약점 발견";
 
-        return "xss";
+        if(StringParse.contains("xss")){
+            msg = "이상 없음";
+        }else{
+            msg = "취약점 발견";
+        }
+
+        return msg;
     }
 
 }

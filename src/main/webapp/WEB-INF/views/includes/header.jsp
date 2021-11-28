@@ -248,7 +248,11 @@
                         <li>
                             <a href="/sqlinjct">SQL Injection</a>
                         </li>
+                        <li>
+                            <a href="/xss">xss</a>
+                        </li>
                     </ul>
+
                     <!-- /.nav-second-level -->
                 </li>
             </ul>
